@@ -1,0 +1,32 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: scenamon-worker
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        concurrency: 5
+        max-concurrency: 10
+        prefetch: 1
+
+rabbitmq:
+  exchange:
+    name: monitoring-exchange
+  queue:
+    scenario: scenario-execution-queue
+    result: scenario-result-queue
+  routing:
+    scenario: scenario.execute
+    result: scenario.result
+
+playwright:
+  screenshot:
+    dir: ${SCREENSHOT_DIR:/data/screenshots}
+  browser:
+    headless: ${BROWSER_HEADLESS:true}
